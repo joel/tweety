@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessible :bio, :email, :firstname, :lastname, :nickname
 
-  validates :nickname, :presence => true
-  validates :email, :presence => true
+  validates :nickname, :presence => true, :uniqueness => true
+  validates :email, :presence => true, :uniqueness => true
     
   # Following
   has_many :following, :through => :relationships, :source => :followed

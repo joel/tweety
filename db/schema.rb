@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(:version => 20120512152538) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
+
   create_table "users", :force => true do |t|
     t.string   "nickname"
     t.string   "email"
@@ -29,5 +31,8 @@ ActiveRecord::Schema.define(:version => 20120512152538) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["nickname"], :name => "index_users_on_nickname", :unique => true
 
 end
