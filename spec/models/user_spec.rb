@@ -13,19 +13,20 @@ describe User do
     before { subject.save! }
 
     context "with followers" do
-      before { subject.follow!(followed) }
+      before { subject.follow!(followed.id) }
       
       it "follow another user" do
-        subject.following.include?(followed).should be_true
+        subject.following.should include followed
       end
       
       it "include the follower in the followers array" do
         followed.followers.include?(subject).should be_true
       end
       
-      describe "unfollow another user" do
-        before { subject.unfollow!(followed) }
-        it { subject.following.include?(followed).should be_false }
+      describe "unfollow another user", pending: false do
+        before { subject.unfollow!(followed.id) }
+        
+        it { subject.following.select(:follower_id).map(&:to_s).should_not include followed.id }
       end
     end
   end
