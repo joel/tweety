@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   include Async
   
+  # self.queue = 'follow'
+  
   attr_accessible :bio, :email, :firstname, :lastname, :nickname
   
   validates :nickname,  presence: true, uniqueness: true
