@@ -1,15 +1,5 @@
 module Async
-  
-  class << self
-    attr_accessor :default_queue_name
-
-    def included(base)
-      base.send :include, InstanceMethods
-      base.send :extend, ClassMethods
-    end
-  end
-
-  self.default_queue_name = "async"
+  extend ActiveSupport::Concern
 
   module InstanceMethods
     
@@ -27,7 +17,7 @@ module Async
     end
     
     def queue
-      @queue || ::Async.default_queue_name
+      @queue || '*'
     end
 
     def queue=(name)
