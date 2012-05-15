@@ -7,7 +7,7 @@ gem 'rails', '3.2.3'
 
 gem "twitter-bootstrap-rails"
 gem 'jquery-rails'
-gem 'resque'
+gem 'resque', '>= 1.20.0', :require => "resque/server"
 
 # Gems used only for assets and not required
 # in production environments by default.

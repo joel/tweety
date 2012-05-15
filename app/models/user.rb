@@ -1,8 +1,10 @@
 class User < ActiveRecord::Base
   include Async
   
+  # self.queue = 'follow'
+  
   attr_accessible :bio, :email, :firstname, :lastname, :nickname
-
+  
   validates :nickname,  presence: true, uniqueness: true
   validates :email,     presence: true, uniqueness: true
     
@@ -18,16 +20,6 @@ class User < ActiveRecord::Base
     relationships.where(followed_id: followed_id).exists?
   end
 
-  def follow!(followed_id)
-    async(:_follow!, followed_id)
-  end
-
-  def unfollow!(followed_id)
-    async(:_unfollow!, followed_id)
-  end
-
-  private 
-
   def _follow!(followed_id)
     relationships.create!(followed_id: followed_id) rescue nil
   end
@@ -35,5 +27,5 @@ class User < ActiveRecord::Base
   def _unfollow!(followed_id)
     relationships.where(followed_id: followed_id).destroy rescue nil
   end
-    
+  
 end

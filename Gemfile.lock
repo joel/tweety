@@ -174,7 +174,7 @@ DEPENDENCIES
   guard-spork
   jquery-rails
   rails (= 3.2.3)
-  resque
+  resque (>= 1.20.0)
   rspec
   rspec-rails
   sass-rails (~> 3.2.3)
