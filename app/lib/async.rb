@@ -5,7 +5,12 @@ module Async
     
     def method_missing(method_name, *args)
       return super unless respond_to?('_' + method_name.to_s)
-      Resque.enqueue(self.class, self.id, ('_' + method_name.to_s), *args)
+      begin
+        Resque.enqueue(self.class, self.id, ('_' + method_name.to_s), *args)
+      rescue Errno::ECONNREFUSED => e
+        Rails.logger.error e.message
+        self.class.perform(id, method, *args)
+      end
     end
   end
   

@@ -12,7 +12,7 @@ describe User do
     let(:followed) { FactoryGirl.create(:user) }
     before { subject.save! }
 
-    context "with followers" do
+    context "with followers", pending: true do
       before { subject.follow!(followed.id) }
       
       it "follow another user" do
@@ -23,7 +23,7 @@ describe User do
         followed.followers.include?(subject).should be_true
       end
       
-      describe "unfollow another user", pending: false do
+      describe "unfollow another user" do
         before { subject.unfollow!(followed.id) }
         
         it { subject.following.select(:follower_id).map(&:to_s).should_not include followed.id }
