@@ -12,23 +12,30 @@ describe User do
     let(:followed) { FactoryGirl.create(:user) }
     before { subject.save! }
 
-    context "with followers", pending: true do
+    context "must be asymetric" do
       before { subject.follow!(followed.id) }
+    
+      context "when follow an another person" do  
+        it "should follow the followed person" do
+          should have(1).following
+        end
       
-      it "follow another user" do
-        subject.following.should include followed
+        it "should not have a reverse relation" do 
+          should_not have(1).follower
+        end
       end
-      
-      it "include the follower in the followers array" do
-        followed.followers.include?(subject).should be_true
-      end
-      
-      describe "unfollow another user" do
+    
+      context "when unfollow an another person" do  
         before { subject.unfollow!(followed.id) }
         
-        it { subject.following.select(:follower_id).map(&:to_s).should_not include followed.id }
+        it "should not follow the followed person" do
+          should_not have(1).following
+        end
+      
+        it "should not have a reverse relation" do 
+          should_not have(1).follower
+        end
       end
-    end
+    end    
   end
-  
 end
