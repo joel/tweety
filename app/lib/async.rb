@@ -9,7 +9,7 @@ module Async
         Resque.enqueue(self.class, self.id, ('_' + method_name.to_s), *args)
       rescue Errno::ECONNREFUSED => e
         Rails.logger.error e.message
-        self.class.perform(id, method, *args)
+        self.send(('_' + method_name.to_s).to_sym, *args)
       end
     end
   end
